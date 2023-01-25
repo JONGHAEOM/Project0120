@@ -175,7 +175,20 @@ namespace ski
                 for (int j = 0; j < goalCount; ++j) 
                 {
                     if (playerX == goalPositionsX[j] && playerY == goalPositionsY[j])
+                    {
                         Point++;
+                    }
+                    else if (playerX == goalPositionsX[j] +1 && playerY == goalPositionsY[j])
+                    {
+                        Point++;
+                    }
+                    else if (playerX == goalPositionsX[j] - 1 && playerY == goalPositionsY[j])
+                    {
+                        Point++;
+                    }
+                    
+                      
+                    
                 }
                 for (int h = 0; h< wallCount; ++h) 
                 {
