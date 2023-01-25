@@ -7,7 +7,8 @@ namespace ski
     {
         None,
         Left,
-        Right
+        Right,
+        Down
     }
     internal class Program
     {
@@ -84,21 +85,26 @@ namespace ski
                     PlayerIcon = "//";
                     for (int i = 0; i < wallCount; ++i)
                     {
-                        wallPositionY[i] -= 1;
-                        
-                        if (wallPositionY[i] == 0)
+                        if (wallPositionY[i] <= 3)
                         {
                             wallPositionY[i] = random.Next(10, 20);
                             wallPositionX[i] = random.Next(1, 20);
                         }
+                        else
+                        {
+                            wallPositionY[i] -= 1;
+                        }
                     }
                     for (int GOAL = 0; GOAL < goalCount; ++GOAL)
                     {
-                        goalPositionsY[GOAL] -= 1;
-                        if (goalPositionsY[GOAL] == 0)
+                        if (goalPositionsY[GOAL] <= 3)
                         {
                             goalPositionsY[GOAL] = random.Next(10, 20);
                             goalPositionsX[GOAL] = random.Next(1, 20);
+                        }
+                        else
+                        {
+                            goalPositionsY[GOAL] -= 1;
                         }
                     }
                 }
@@ -111,23 +117,60 @@ namespace ski
                     PlayerIcon = "\\\\";
                     for (int i = 0; i < wallCount; ++i)
                     {
-                        wallPositionY[i] -= 1;
-                        if (wallPositionY[i] == 0)
+                        if (wallPositionY[i] <= 3)
                         {
                             wallPositionY[i] = random.Next(10, 20);
                             wallPositionX[i] = random.Next(1, 20);
                         }
+                        else
+                        {
+                            wallPositionY[i] -= 1;
+                        }
                     }
                     for (int GOAL = 0; GOAL < goalCount; ++GOAL)
                     {
-                        goalPositionsY[GOAL] -= 1;
-                        if (goalPositionsY[GOAL] == 0)
+                        if (goalPositionsY[GOAL] <= 3)
                         {
                             goalPositionsY[GOAL] = random.Next(10, 20);
                             goalPositionsX[GOAL] = random.Next(1, 20);
                         }
+                        else
+                        {
+                            goalPositionsY[GOAL] -= 1;
+                        }
                     }
 
+                }
+                if (key == ConsoleKey.DownArrow)
+                {
+                    Gamecount+=2;
+                    playerMoveDirection = Direction.Down;
+                    PlayerIcon = "||";
+                    for (int i = 0; i < wallCount; ++i)
+                    {
+                        if (wallPositionY[i] <= 3)
+                        {
+                            wallPositionY[i] = random.Next(10, 20);
+                            wallPositionX[i] = random.Next(1, 20);
+                        }
+                        else
+                        {
+                            wallPositionY[i] -= 1;
+                        }
+                    }
+                    for (int GOAL = 0; GOAL < goalCount; ++GOAL)
+                    {
+                        if (goalPositionsY[GOAL] <= 3)
+                        {
+                            goalPositionsY[GOAL] = random.Next(10, 20);
+                            goalPositionsX[GOAL] = random.Next(1, 20);
+                        }
+                        else
+                        {
+                            goalPositionsY[GOAL] -= 1;
+                        }
+
+                    }
                 }
                 for (int j = 0; j < goalCount; ++j) 
                 {
@@ -140,7 +183,7 @@ namespace ski
                         blackmark++;
                 }
                 
-                if (Gamecount == 100)
+                if (Gamecount >= 100)
                 {
                     Console.Clear();
                     Console.WriteLine($"점수 : {Point*100-blackmark*20}");
