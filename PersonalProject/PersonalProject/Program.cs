@@ -22,14 +22,11 @@ namespace ski
             int[] goalPositionsX = { random.Next(1, 20), random.Next(1, 20), random.Next(1, 20) };
             int[] goalPositionsY = { 10, 15, 20 };
 
-            int[] wallPositionX = { random.Next(1, 20), random.Next(1, 20), random.Next(1, 20), random.Next(1, 20), random.Next(1, 20), random.Next(1, 20) };
-            int[] wallPositionY = { random.Next(7, 19), random.Next(7, 19), random.Next(7, 19), random.Next(7, 19), random.Next(7, 19), random.Next(7, 19) };
+            int[] snowPositionsX = { random.Next(1, 20), random.Next(1, 20), random.Next(1, 20), random.Next(1, 20), random.Next(1, 20), random.Next(1, 20) };
+            int[] snowPositionsY = { random.Next(7, 19), random.Next(7, 19), random.Next(7, 19), random.Next(7, 19), random.Next(7, 19), random.Next(7, 19) };
 
-
-
-
-            string WallIcon = "Ｏ";
-            string GoalIcon = "П";
+            const string SnowIcon = "Ｏ";
+            const string GoalIcon = "П";
             
             //플레이어 위치지정
             
@@ -49,37 +46,39 @@ namespace ski
                 RenderObject(22, 1, $"점수 : {Point}");
                 RenderObject(22, 2, $"감점 : {blackmark}");
                 RenderObject(22, 3, $"남은거리 : {400 - Gamecount*4}M");
+                //골과 눈을 그려준다
                 int goalCount = goalPositionsX.Length;
                 for (int i = 0; i < goalCount; ++i)
                 {
                     RenderObject(goalPositionsX[i], goalPositionsY[i], GoalIcon);
                 }
-                int wallCount = wallPositionX.Length;
-                for (int i = 0;(i < wallCount); ++i)
+                int snowCount = snowPositionsX.Length;
+                for (int i = 0;(i < snowCount); ++i)
                 {
-                    RenderObject(wallPositionX[i], wallPositionY[i], WallIcon);
+                    RenderObject(snowPositionsX[i], snowPositionsY[i], SnowIcon);
                 }
                 //-----------------------------------------------
 
                 ConsoleKeyInfo keyInfo = Console.ReadKey();
                 ConsoleKey key = keyInfo.Key;
 
+                //-----------------------------------------
+
                 if (key == ConsoleKey.LeftArrow)
                 {
                     Gamecount++;
                     playerX = Math.Max(Min_X, playerX-1);
-                    
                     PlayerIcon = "//";
-                    for (int i = 0; i < wallCount; ++i)
+                    for (int i = 0; i < snowCount; ++i)
                     {
-                        if (wallPositionY[i] <= 3)
+                        if (snowPositionsY[i] <= 3)
                         {
-                            wallPositionY[i] = random.Next(10, 20);
-                            wallPositionX[i] = random.Next(1, 20);
+                            snowPositionsY[i] = random.Next(10, 20);
+                            snowPositionsX[i] = random.Next(1, 20);
                         }
                         else
                         {
-                            wallPositionY[i] -= 1;
+                            snowPositionsY[i] -= 1;
                         }
                     }
                     for (int GOAL = 0; GOAL < goalCount; ++GOAL)
@@ -99,18 +98,17 @@ namespace ski
                 {
                     Gamecount++;
                     playerX = Math.Min(playerX + 1, Max_X);
-                    
                     PlayerIcon = "\\\\";
-                    for (int i = 0; i < wallCount; ++i)
+                    for (int i = 0; i < snowCount; ++i)
                     {
-                        if (wallPositionY[i] <= 3)
+                        if (snowPositionsY[i] <= 3)
                         {
-                            wallPositionY[i] = random.Next(10, 20);
-                            wallPositionX[i] = random.Next(1, 20);
+                            snowPositionsY[i] = random.Next(10, 20);
+                            snowPositionsX[i] = random.Next(1, 20);
                         }
                         else
                         {
-                            wallPositionY[i] -= 1;
+                            snowPositionsY[i] -= 1;
                         }
                     }
                     for (int GOAL = 0; GOAL < goalCount; ++GOAL)
@@ -131,16 +129,16 @@ namespace ski
                 {
                     Gamecount+=1;
                     PlayerIcon = "||";
-                    for (int i = 0; i < wallCount; ++i)
+                    for (int i = 0; i < snowCount; ++i)
                     {
-                        if (wallPositionY[i] <= 3)
+                        if (snowPositionsY[i] <= 3)
                         {
-                            wallPositionY[i] = random.Next(10, 20);
-                            wallPositionX[i] = random.Next(1, 20);
+                            snowPositionsY[i] = random.Next(10, 20);
+                            snowPositionsX[i] = random.Next(1, 20);
                         }
                         else
                         {
-                            wallPositionY[i] -= 1;
+                            snowPositionsY[i] -= 1;
                         }
                     }
                     for (int GOAL = 0; GOAL < goalCount; ++GOAL)
@@ -156,6 +154,7 @@ namespace ski
                         }
                     }
                 }
+                //점수를 주는 부분
                 for (int j = 0; j < goalCount; ++j) 
                 {
                     if (playerX == goalPositionsX[j] && playerY == goalPositionsY[j])
@@ -171,12 +170,12 @@ namespace ski
                         Point++;
                     }
                 }
-                for (int h = 0; h< wallCount; ++h) 
+                //감점점수가 올라가는 부분
+                for (int h = 0; h< snowCount; ++h) 
                 {
-                    if (playerX == wallPositionX[h] && playerY == wallPositionY[h])
+                    if (playerX == snowPositionsX[h] && playerY == snowPositionsY[h])
                         blackmark++;
                 }
-                
                 if (Gamecount >= 100)
                 {
                     Console.Clear();
