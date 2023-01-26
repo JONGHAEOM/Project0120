@@ -1,15 +1,9 @@
 ﻿using System;
+using System.Text;
 
 namespace ski
 
 {
-    enum Direction
-    {
-        None,
-        Left,
-        Right,
-        Down
-    }
     internal class Program
     {
         static void Main(string[] args)
@@ -31,11 +25,14 @@ namespace ski
             int[] wallPositionX = { random.Next(1, 20), random.Next(1, 20), random.Next(1, 20), random.Next(1, 20), random.Next(1, 20), random.Next(1, 20) };
             int[] wallPositionY = { random.Next(7, 19), random.Next(7, 19), random.Next(7, 19), random.Next(7, 19), random.Next(7, 19), random.Next(7, 19) };
 
-            const string WallIcon = "O";
-            const string GoalIcon = "F";
 
+
+
+            string WallIcon = "Ｏ";
+            string GoalIcon = "П";
+            
             //플레이어 위치지정
-            Direction playerMoveDirection = Direction.None;
+            
             string PlayerIcon = "||";
 
             int playerX = 10;
@@ -43,18 +40,15 @@ namespace ski
 
             int Point = 0;
             int blackmark = 0;
-
             int Gamecount = 0;
 
             while (true)
             {
                 Console.Clear();
-
-                
-
                 RenderObject(playerX, playerY, $"{PlayerIcon}");
                 RenderObject(22, 1, $"점수 : {Point}");
                 RenderObject(22, 2, $"감점 : {blackmark}");
+                RenderObject(22, 3, $"남은거리 : {400 - Gamecount*4}M");
                 int goalCount = goalPositionsX.Length;
                 for (int i = 0; i < goalCount; ++i)
                 {
@@ -65,13 +59,6 @@ namespace ski
                 {
                     RenderObject(wallPositionX[i], wallPositionY[i], WallIcon);
                 }
-
-                void RenderObject(int x, int y, string icon)
-                {
-                    Console.SetCursorPosition(x, y);
-                    Console.Write(icon);
-                }
-
                 //-----------------------------------------------
 
                 ConsoleKeyInfo keyInfo = Console.ReadKey();
@@ -81,7 +68,7 @@ namespace ski
                 {
                     Gamecount++;
                     playerX = Math.Max(Min_X, playerX-1);
-                    playerMoveDirection = Direction.Left;
+                    
                     PlayerIcon = "//";
                     for (int i = 0; i < wallCount; ++i)
                     {
@@ -108,12 +95,11 @@ namespace ski
                         }
                     }
                 }
-
                 if (key == ConsoleKey.RightArrow)
                 {
                     Gamecount++;
                     playerX = Math.Min(playerX + 1, Max_X);
-                    playerMoveDirection = Direction.Right;
+                    
                     PlayerIcon = "\\\\";
                     for (int i = 0; i < wallCount; ++i)
                     {
@@ -143,8 +129,7 @@ namespace ski
                 }
                 if (key == ConsoleKey.DownArrow)
                 {
-                    Gamecount+=2;
-                    playerMoveDirection = Direction.Down;
+                    Gamecount+=1;
                     PlayerIcon = "||";
                     for (int i = 0; i < wallCount; ++i)
                     {
@@ -169,7 +154,6 @@ namespace ski
                         {
                             goalPositionsY[GOAL] -= 1;
                         }
-
                     }
                 }
                 for (int j = 0; j < goalCount; ++j) 
@@ -186,9 +170,6 @@ namespace ski
                     {
                         Point++;
                     }
-                    
-                      
-                    
                 }
                 for (int h = 0; h< wallCount; ++h) 
                 {
@@ -201,6 +182,11 @@ namespace ski
                     Console.Clear();
                     Console.WriteLine($"점수 : {Point*100-blackmark*20}");
                     break;
+                }
+                void RenderObject(int x, int y, string icon)
+                {
+                    Console.SetCursorPosition(x, y);
+                    Console.Write(icon);
                 }
 
             }
